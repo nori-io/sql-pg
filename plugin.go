@@ -2,6 +2,8 @@ package main
 
 import (
 	"context"
+     "github.com/jinzhu/gorm/dialects/postgres"
+	"github.com/jinzhu/gorm/tree/v1.9.15/dialects/mysql"
 	"github.com/go-pg/pg"
 	"github.com/nori-io/common/v3/config"
 	"github.com/nori-io/common/v3/logger"
@@ -13,7 +15,7 @@ import (
 type service struct {
 	db *pg.DB
 	config   *pluginConfig
-
+	logger logger.FieldLogger
 }
 
 //dialect - mysql или postgres.
@@ -31,7 +33,7 @@ var (
 )
 
 func (p *service) Init(ctx context.Context, config config.Config, log logger.FieldLogger) error {
-	p.config.addr=config.String("host", "host")()
+	p.config.addr=config.String("addr", "addr")()
 	p.config.db=config.String("db", "db")()
 	p.config.user=config.String("user", "user")()
 	p.config.password=config.String("password", "password")()
@@ -46,7 +48,7 @@ func (p *service) Instance() interface{} {
 func (p *service) Meta() meta.Meta {
 	return &meta.Data{
 		ID: meta.ID{
-			ID:      "public/sql/pg",
+			ID:      "sql/pg",
 			Version: "8.0.7",
 		},
 		Author: meta.Author{
@@ -74,23 +76,28 @@ func (p *service) Meta() meta.Meta {
 }
 
 func (p *service) Start(ctx context.Context, registry plugin.Registry) error {
-	if p.db == nil {
-			p.db= &pg.DB{}
-	}
+
 	p.db= pg.Connect(&pg.Options{
 		Addr:                  p.config.addr,
 		User:                  p.config.user,
 		Password:              p.config.password,
-		Database:              p.config.db,
-
 	})
 
-	return nil
+	var n int
+	_, err := p.db.QueryOne(pg.Scan(&n), "SELECT 1")
+	if err!=nil{
+		p.logger.Error(err.Error())
+	}
+	return err
 }
 
 func (p *service) Stop(ctx context.Context, registry plugin.Registry) error {
-	p.db.Close()
-	p.db = nil
-	return nil
+	err:=p.db.Close()
+
+	if err!=nil{
+		p.logger.Error(err.Error())
+	}
+
+	return err
 }
 
