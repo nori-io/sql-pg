@@ -23,7 +23,6 @@ type pluginConfig struct {
 	db string
 	user string
 	password string
-	dialect string
 }
 
 var (
@@ -35,7 +34,6 @@ func (p *service) Init(ctx context.Context, config config.Config, log logger.Fie
 	p.config.db=config.String("db", "db")()
 	p.config.user=config.String("user", "user")()
 	p.config.password=config.String("password", "password")()
-	p.config.dialect=config.String("dialect", "dialect")()
 	return nil
 }
 
