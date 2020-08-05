@@ -2,8 +2,6 @@ package main
 
 import (
 	"context"
-     "github.com/jinzhu/gorm/dialects/postgres"
-	"github.com/jinzhu/gorm/tree/v1.9.15/dialects/mysql"
 	"github.com/go-pg/pg"
 	"github.com/nori-io/common/v3/config"
 	"github.com/nori-io/common/v3/logger"
