@@ -14,6 +14,7 @@ type service struct {
 	db     *pg.DB
 	config *pluginConfig
 	logger logger.FieldLogger
+	dbLogger *dbLogger
 }
 
 //one parameter with format  host:port
@@ -30,6 +31,7 @@ var (
 
 func (p *service) Init(ctx context.Context, config config.Config, log logger.FieldLogger) error {
 	p.logger = log
+	p.dbLogger=&dbLogger{}
 	p.config.addr = config.String("addr", "addr")()
 	p.config.db = config.String("db", "database name")()
 	p.config.user = config.String("user", "user")()
@@ -85,7 +87,7 @@ func (p *service) Start(ctx context.Context, registry plugin.Registry) error {
 	if err != nil {
 		p.logger.Error(err.Error())
 	}else {
-		p.db.AddQueryHook()
+		p.db.AddQueryHook(p.dbLogger)
 	}
 
 
