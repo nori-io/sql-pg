@@ -29,6 +29,7 @@ var (
 )
 
 func (p *service) Init(ctx context.Context, config config.Config, log logger.FieldLogger) error {
+	p.logger = log
 	p.config.addr = config.String("addr", "addr")()
 	p.config.db = config.String("db", "database name")()
 	p.config.user = config.String("user", "user")()
@@ -83,7 +84,11 @@ func (p *service) Start(ctx context.Context, registry plugin.Registry) error {
 	_, err := p.db.QueryOne(pg.Scan(&n), "SELECT 1")
 	if err != nil {
 		p.logger.Error(err.Error())
+	}else {
+		p.db.AddQueryHook()
 	}
+
+
 
 	return err
 }
