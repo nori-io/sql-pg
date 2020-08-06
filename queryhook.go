@@ -5,7 +5,7 @@ import (
 	"github.com/go-pg/pg"
 )
 
-type dbLogger struct { }
+type dbLogger struct{}
 
 func (d dbLogger) BeforeQuery(q *pg.QueryEvent) {
 	fmt.Println(q.FormattedQuery())

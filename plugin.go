@@ -11,13 +11,12 @@ import (
 )
 
 type service struct {
-	db     *pg.DB
-	config *pluginConfig
-	logger logger.FieldLogger
+	db       *pg.DB
+	config   *pluginConfig
+	logger   logger.FieldLogger
 	dbLogger *dbLogger
 }
 
-//one parameter with format  host:port
 type pluginConfig struct {
 	addr     string
 	db       string
@@ -31,7 +30,7 @@ var (
 
 func (p *service) Init(ctx context.Context, config config.Config, log logger.FieldLogger) error {
 	p.logger = log
-	p.dbLogger=&dbLogger{}
+	p.dbLogger = &dbLogger{}
 	p.config.addr = config.String("addr", "addr")()
 	p.config.db = config.String("db", "database name")()
 	p.config.user = config.String("user", "user")()
@@ -86,11 +85,9 @@ func (p *service) Start(ctx context.Context, registry plugin.Registry) error {
 	_, err := p.db.QueryOne(pg.Scan(&n), "SELECT 1")
 	if err != nil {
 		p.logger.Error(err.Error())
-	}else {
+	} else {
 		p.db.AddQueryHook(p.dbLogger)
 	}
-
-
 
 	return err
 }
