@@ -54,13 +54,13 @@ func (p *service) Meta() meta.Meta {
 			Name: "Nori.io",
 			URI:  "https://nori.io/",
 		},
-		Core: meta.Core{
-			VersionConstraint: "=0.2.0",
-		},
 		Dependencies: []meta.Dependency{},
 		Description: meta.Description{
 			Name:        "Nori: ORM PG",
 			Description: "This plugin implements instance of ORM PG",
+		},
+		Core: meta.Core{
+			VersionConstraint: "^0.2.0",
 		},
 		Interface: i.PgInterface,
 		License: []meta.License{
@@ -69,7 +69,12 @@ func (p *service) Meta() meta.Meta {
 				Type:  "GPLv3",
 				URI:   "https://www.gnu.org/licenses/"},
 		},
-		Tags: []string{"orm", "pg", "sql"},
+		Links:      nil,
+		Repository: meta.Repository{
+			Type: "git",
+			URI:  "https://github.com/nori-io/sql-pg",
+		},
+		Tags:       []string{"orm", "pg", "sql"},
 	}
 
 }
