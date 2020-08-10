@@ -2,13 +2,14 @@ package main
 
 import (
 	"context"
+
 	"github.com/go-pg/pg"
 	"github.com/nori-io/common/v3/config"
 	"github.com/nori-io/common/v3/logger"
 	"github.com/nori-io/common/v3/meta"
 	"github.com/nori-io/common/v3/plugin"
 	i "github.com/nori-io/interfaces/public/sql/pg"
-	"github.com/nori-io/sql-pg/hook"
+	"github.com/nori-io/sql-pg/internal/hook"
 )
 
 type service struct {
@@ -32,10 +33,10 @@ var (
 func (p *service) Init(ctx context.Context, config config.Config, log logger.FieldLogger) error {
 	p.logger = log
 	p.dbLogger = &hook.DbLogger{}
-	p.config.addr = config.String("addr", "addr")()
-	p.config.db = config.String("db", "database name")()
-	p.config.user = config.String("user", "user")()
-	p.config.password = config.String("password", "password")()
+	p.config.addr = config.String("sql.pg.addr", "addr")()
+	p.config.db = config.String("sql.pg.db", "database name")()
+	p.config.user = config.String("sql.pg.user", "user")()
+	p.config.password = config.String("sql.pg.password", "password")()
 	return nil
 }
 
