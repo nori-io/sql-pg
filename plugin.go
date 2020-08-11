@@ -45,7 +45,7 @@ func (p *service) Instance() interface{} {
 }
 
 func (p *service) Meta() meta.Meta {
-	return &meta.Data{
+	return meta.Data{
 		ID: meta.ID{
 			ID:      "sql/pg",
 			Version: "8.0.7",
@@ -69,12 +69,12 @@ func (p *service) Meta() meta.Meta {
 				Type:  "GPLv3",
 				URI:   "https://www.gnu.org/licenses/"},
 		},
-		Links:      nil,
+		Links: []meta.Link{},
 		Repository: meta.Repository{
 			Type: "git",
 			URI:  "https://github.com/nori-io/sql-pg",
 		},
-		Tags:       []string{"orm", "pg", "sql"},
+		Tags: []string{"orm", "pg", "sql"},
 	}
 
 }
