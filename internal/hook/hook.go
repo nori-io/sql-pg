@@ -2,7 +2,7 @@ package hook
 
 import (
 	"github.com/go-pg/pg"
-	"github.com/nori-io/common/v3/logger"
+	"github.com/nori-io/common/v4/pkg/domain/logger"
 )
 
 type DbLogger struct {
