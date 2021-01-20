@@ -1,4 +1,4 @@
-package plugin
+package main
 
 import (
 	"context"
@@ -16,7 +16,9 @@ import (
 	"github.com/nori-plugins/database-orm-pg/internal/hook"
 )
 
-var Plugin p.Plugin = &plugin{}
+func New() p.Plugin {
+	return &plugin{}
+}
 
 type plugin struct {
 	db       *pg.DB
